@@ -2,6 +2,9 @@
 using System.Windows.Forms;
 using System.Management;
 using System.Linq;
+using System.IO.Ports;
+using System.Xml.Linq;
+using System.Threading.Tasks;
 
 
 namespace ListSerialPort
@@ -11,6 +14,30 @@ namespace ListSerialPort
         public Form1()
         {
             InitializeComponent();
+        }
+
+
+        public const int WM_DEVICECHANGE = 0x00000219;  //デバイス変化のWindowsイベントの値
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            switch (m.Msg)
+            {
+                case WM_DEVICECHANGE:   //デバイス状況の変化イベント
+                    if (m.WParam == (IntPtr)0x0007) // DBT_DEVNODES_CHANGED
+                        Task.Run(() => CheckDevice());      //デバイスをチェック
+                    break;
+            }
+        }
+        
+        
+        private void CheckDevice()
+        {
+            //UIスレッドでリストを更新
+            this.Invoke((MethodInvoker)delegate
+            {
+                UpdateSerialPortList();
+            });
         }
 
 
@@ -35,23 +62,20 @@ namespace ListSerialPort
                 ctlList.Items.Clear();
 
                 // WMIクエリでシリアルポート情報を取得
-                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort"))
+                var CheckComNum = new System.Text.RegularExpressions.Regex("COM[1-9][0-9]?[0-9]?");
+
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"))
                 {
                     ManagementObjectCollection results = searcher.Get();
 
-                    // LINQを使ってCaption順に並べ替える
-                    var sortedResults = results.Cast<ManagementObject>()
-                                               .OrderBy(mo => mo["DeviceID"]);
-
-                    foreach (ManagementObject port in sortedResults)
+                    foreach (var item in results)
                     {
-                        string deviceId = port["DeviceID"]?.ToString() ?? "不明";
-                        string name = port["Name"]?.ToString() ?? "不明";
-                        string description = port["Description"]?.ToString() ?? "不明";
+                        string name = item["Name"]?.ToString() ?? "";
 
-                        //string portInfo = $"{deviceId} - {name} ({description})";
-                        string portInfo = $"{deviceId} - {description}";
-                        ctlList.Items.Add(portInfo);
+                        if (CheckComNum.IsMatch(name))
+                        {
+                            ctlList.Items.Add(name);
+                        }
                     }
                 }
 
