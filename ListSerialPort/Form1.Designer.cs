@@ -28,23 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.ctlList = new System.Windows.Forms.ListBox();
+            this.ctlMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuStartApp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.ctlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUpdate
             // 
+            this.btnUpdate.BackColor = System.Drawing.Color.White;
+            this.btnUpdate.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnUpdate.Location = new System.Drawing.Point(16, 16);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 41);
             this.btnUpdate.TabIndex = 0;
             this.btnUpdate.Text = "更新";
-            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // ctlList
             // 
+            this.ctlList.BackColor = System.Drawing.Color.White;
+            this.ctlList.ContextMenuStrip = this.ctlMenu;
             this.ctlList.FormattingEnabled = true;
             this.ctlList.HorizontalScrollbar = true;
             this.ctlList.ItemHeight = 23;
@@ -53,20 +64,68 @@
             this.ctlList.Size = new System.Drawing.Size(464, 234);
             this.ctlList.TabIndex = 1;
             // 
+            // ctlMenu
+            // 
+            this.ctlMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuStartApp,
+            this.toolStripMenuItem1,
+            this.mnuCopy});
+            this.ctlMenu.Name = "ctlMenu";
+            this.ctlMenu.Size = new System.Drawing.Size(215, 54);
+            // 
+            // mnuStartApp
+            // 
+            this.mnuStartApp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.mnuStartApp.Name = "mnuStartApp";
+            this.mnuStartApp.Size = new System.Drawing.Size(214, 22);
+            this.mnuStartApp.Text = "アプリ起動";
+            this.mnuStartApp.Click += new System.EventHandler(this.mnuStartApp_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(211, 6);
+            // 
+            // mnuCopy
+            // 
+            this.mnuCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.mnuCopy.Name = "mnuCopy";
+            this.mnuCopy.Size = new System.Drawing.Size(214, 22);
+            this.mnuCopy.Text = "ポート名をクリップボードにコピー";
+            this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.White;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(376, 16);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(100, 41);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "閉じる";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(496, 321);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.ctlList);
             this.Controls.Add(this.btnUpdate);
             this.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "シリアルポート一覧";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.ctlMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -75,6 +134,11 @@
 
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.ListBox ctlList;
+        private System.Windows.Forms.ContextMenuStrip ctlMenu;
+        private System.Windows.Forms.ToolStripMenuItem mnuStartApp;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mnuCopy;
+        private System.Windows.Forms.Button btnClose;
     }
 }
 

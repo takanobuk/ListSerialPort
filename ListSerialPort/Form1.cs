@@ -29,8 +29,8 @@ namespace ListSerialPort
                     break;
             }
         }
-        
-        
+
+
         private void CheckDevice()
         {
             //UIスレッドでリストを更新
@@ -43,12 +43,17 @@ namespace ListSerialPort
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //
+            mnuStartApp.Text = Properties.Settings.Default.StartApplicationMenu;
+
+            // シリアルポートリストを更新
             UpdateSerialPortList();
         }
 
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            // シリアルポートリストを更新
             UpdateSerialPortList();
         }
 
@@ -86,7 +91,7 @@ namespace ListSerialPort
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"エラーが発生しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, $"エラーが発生しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -94,5 +99,100 @@ namespace ListSerialPort
             }
         }
 
+
+        private void mnuStartApp_Click(object sender, EventArgs e)
+        {
+            if (ctlList.SelectedItem == null)
+            {
+                MessageBox.Show(this, "項目が選択されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string selectedText = ctlList.SelectedItem.ToString();
+
+            if (selectedText == "シリアルポートが見つかりませんでした。")
+            {
+                MessageBox.Show(this, "有効なCOMポートが選択されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 正規表現でCOM*のポート名を抽出
+            var match = System.Text.RegularExpressions.Regex.Match(selectedText, @"COM\d+");
+
+            if (match.Success)
+            {
+                string comPort = match.Value;
+                string comNumber = comPort.Substring(3); // "COM"の後の数字部分を取得
+
+                try
+                {
+                    // 外部アプリケーションを起動する
+                    System.Diagnostics.Process.Start(Properties.Settings.Default.StartApplicationPath,
+                        string.Format(Properties.Settings.Default.StartApplicationArguments, comPort, comNumber));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, $"外部アプリケーションの起動に失敗しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "COMポート名が見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void mnuCopy_Click(object sender, EventArgs e)
+        {
+            if (ctlList.SelectedItem == null)
+            {
+                MessageBox.Show(this, "項目が選択されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string selectedText = ctlList.SelectedItem.ToString();
+
+            if (selectedText == "シリアルポートが見つかりませんでした。")
+            {
+                MessageBox.Show(this, "有効なCOMポートが選択されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 正規表現でCOM*のポート名を抽出
+            var match = System.Text.RegularExpressions.Regex.Match(selectedText, @"COM\d+");
+
+            if (match.Success)
+            {
+                try
+                {
+                    Clipboard.SetText(match.Value);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, $"クリップボードへのコピーに失敗しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "COMポート名が見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    // シリアルポートリストを更新
+                    UpdateSerialPortList();
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
