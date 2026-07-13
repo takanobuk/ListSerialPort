@@ -1,17 +1,18 @@
 
-# include-copy
+# ListSerialPort
 
 Windowsにおいて、シリアルポートを一覧表示する.NET Frameworkフォームアプリケーション
 
 ## Features
 
-- シリアルポートを一覧表示します。
-- WMIを使用してシリアルポート情報を取得しています。
-- USBシリアルなど接続切断すると自動更新します。
+- WMIを使用してシリアルポート情報を取得し、一覧表示します。
+- USBシリアルなど接続および切断すると自動更新します。
+- 一覧のCOMポートを右クリックして、ポート名をクリップボードにコピーしたり、TeraTermアプリケーションを起動することができます。
 
 ## How do I run this?
 
-Visual Studio 2022で開いてコンパイル
+Visual Studioで開いてコンパイル。
+VS2022, VS2026で確認済み。
 
 ## Note
 
