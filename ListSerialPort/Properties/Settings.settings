@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ListSerialPort.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="StartApplicationPath" Type="System.String" Scope="Application">
+    <Setting Name="StartApplicationPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\teraterm\ttermpro.exe</Value>
     </Setting>
-    <Setting Name="StartApplicationArguments" Type="System.String" Scope="Application">
+    <Setting Name="StartApplicationArguments" Type="System.String" Scope="User">
       <Value Profile="(Default)">/C={1} /SPEED=115200 /CDATABIT=8 /CPARITY=none /CSTOPBIT=1 /CFLOWCTRL=none</Value>
     </Setting>
     <Setting Name="StartApplicationMenu" Type="System.String" Scope="User">
-      <Value Profile="(Default)">TeraTermを起動(&amp;R)</Value>
+      <Value Profile="(Default)">TeraTermを起動</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -127,6 +127,7 @@ namespace ListSerialPort
                 try
                 {
                     // 外部アプリケーションを起動する
+                    // {0}=COMポート名, {1}=COM番号
                     System.Diagnostics.Process.Start(Properties.Settings.Default.StartApplicationPath,
                         string.Format(Properties.Settings.Default.StartApplicationArguments, comPort, comNumber));
                 }
@@ -178,6 +179,7 @@ namespace ListSerialPort
             }
         }
 
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -190,9 +192,60 @@ namespace ListSerialPort
             }
         }
 
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        private void mnuItemExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+        private void mnuItemSetup_Click(object sender, EventArgs e)
+        {
+            //  設定画面を開く
+            SetupForm setupForm = new SetupForm();
+
+            setupForm.AppPath = Properties.Settings.Default.StartApplicationPath;
+            setupForm.AppArgument = Properties.Settings.Default.StartApplicationArguments;
+            setupForm.MenuTitle = Properties.Settings.Default.StartApplicationMenu;
+
+            if (setupForm.ShowDialog() == DialogResult.OK)
+            {
+                // 設定を保存
+                Properties.Settings.Default.StartApplicationPath = setupForm.AppPath;
+                Properties.Settings.Default.StartApplicationArguments = setupForm.AppArgument;
+                Properties.Settings.Default.StartApplicationMenu = setupForm.MenuTitle;
+                Properties.Settings.Default.Save();
+
+                // メニューのテキストを更新
+                mnuStartApp.Text = Properties.Settings.Default.StartApplicationMenu;
+            }
+        }
+
+
+        private void ctlList_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 右クリックされた場合、クリックした項目を選択してコンテキストメニューを表示
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = ctlList.IndexFromPoint(e.Location);
+
+                if (index != ListBox.NoMatches)
+                {
+                    ctlList.ClearSelected();
+                    ctlList.SelectedIndex = index;
+
+                    System.Drawing.Point pos = ctlList.PointToScreen(e.Location);
+
+                    menuStrip1.Location = pos;
+                    menuStrip1.Show();
+                }
+            }
         }
     }
 }

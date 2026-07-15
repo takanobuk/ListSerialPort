@@ -23,27 +23,33 @@ namespace ListSerialPort.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\teraterm\\ttermpro.exe")]
         public string StartApplicationPath {
             get {
                 return ((string)(this["StartApplicationPath"]));
             }
+            set {
+                this["StartApplicationPath"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("/C={1} /SPEED=115200 /CDATABIT=8 /CPARITY=none /CSTOPBIT=1 /CFLOWCTRL=none")]
         public string StartApplicationArguments {
             get {
                 return ((string)(this["StartApplicationArguments"]));
             }
+            set {
+                this["StartApplicationArguments"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TeraTermを起動(&R)")]
+        [global::System.Configuration.DefaultSettingValueAttribute("TeraTermを起動")]
         public string StartApplicationMenu {
             get {
                 return ((string)(this["StartApplicationMenu"]));
