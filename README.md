@@ -21,3 +21,9 @@ VS2022, VS2026で確認済み。
 ## License
 
 This software is released under the MIT License, see LICENSE.
+
+## Thanks
+
+- [TeraTerm](https://teratermproject.github.io/)
+- [icon-icon](https://icon-icons.com/)
+- [Faviconジェネレーター](https://favicon-generator.mintsu-dev.com/)
