@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Management;
-using System.Linq;
-using System.IO.Ports;
-using System.Xml.Linq;
 using System.Threading.Tasks;
 
 
@@ -17,27 +14,39 @@ namespace ListSerialPort
         }
 
 
-        public const int WM_DEVICECHANGE = 0x00000219;  //デバイス変化のWindowsイベントの値
+
         protected override void WndProc(ref Message m)
         {
+            const int WM_DEVICECHANGE = 0x00000219;  //デバイス変化のWindowsイベントの値
+            
             base.WndProc(ref m);
+            
             switch (m.Msg)
             {
                 case WM_DEVICECHANGE:   //デバイス状況の変化イベント
                     if (m.WParam == (IntPtr)0x0007) // DBT_DEVNODES_CHANGED
-                        Task.Run(() => CheckDevice());      //デバイスをチェック
+                        Task.Run(() => StartUpdateTimer());      //デバイスをチェック
                     break;
             }
         }
 
 
-        private void CheckDevice()
+        private void StartUpdateTimer()
         {
-            //UIスレッドでリストを更新
+            // WM_DEVICECHANGE+DBT_DEVNODES_CHANGEDはUSBシリアル挿抜時に複数回呼ばれるため
+            // リストを更新するためのタイマーをキックしタイムアウトしたらリストを更新するようにする
             this.Invoke((MethodInvoker)delegate
             {
-                UpdateSerialPortList();
+                tmrUpdateDelay.Stop();
+                tmrUpdateDelay.Start();
             });
+        }
+
+
+        private void tmrUpdateDelay_Tick(object sender, EventArgs e)
+        {
+            tmrUpdateDelay.Stop();
+            UpdateSerialPortList();
         }
 
 
@@ -247,5 +256,6 @@ namespace ListSerialPort
                 }
             }
         }
+
     }
 }

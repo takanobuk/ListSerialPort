@@ -45,7 +45,7 @@ namespace ListSerialPort
 
             fileDialog.FileName = txtAppPath.Text;
 
-            fileDialog.Filter = "実行ファイル (*.exe)|*.exe|すべてのファイル (*.*)|*.*";
+            fileDialog.Filter = "実行ファイル (*.exe,*.com,*.cmd,*.bat)|*.exe;*.com;*.cmd;*.bat|すべてのファイル (*.*)|*.*";
             fileDialog.Title = "実行ファイルを選択してください";
             fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             fileDialog.RestoreDirectory = true;
@@ -68,8 +68,9 @@ namespace ListSerialPort
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult= DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
         }
+
 
         private void txtAppPath_Validating(object sender, CancelEventArgs e)
         {
@@ -77,9 +78,30 @@ namespace ListSerialPort
                 return;
 
             if (System.IO.File.Exists(txtAppPath.Text))
+            {
+                ctlerrorProvider.SetError(txtAppPath, string.Empty);
                 e.Cancel = false;
+            }
             else
+            {
+                ctlerrorProvider.SetError(txtAppPath, "指定されたファイルが存在しません。");
                 e.Cancel = true;
+            }
+        }
+
+
+        private void txtMenu_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtAppPath.Text))
+            {
+                e.Cancel = true;
+                ctlerrorProvider.SetError(txtMenu, "メニュー名を入力してください。");
+            }
+            else
+            {
+                e.Cancel = false;
+                ctlerrorProvider.SetError(txtMenu, string.Empty);
+            }
         }
     }
 }

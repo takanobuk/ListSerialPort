@@ -40,6 +40,7 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmrUpdateDelay = new System.Windows.Forms.Timer(this.components);
             this.ctlMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -115,7 +116,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Menu;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -138,7 +139,7 @@
             // 
             this.mnuItemSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuItemSetup.Name = "mnuItemSetup";
-            this.mnuItemSetup.Size = new System.Drawing.Size(180, 22);
+            this.mnuItemSetup.Size = new System.Drawing.Size(121, 22);
             this.mnuItemSetup.Text = "設定(&S)...";
             this.mnuItemSetup.Click += new System.EventHandler(this.mnuItemSetup_Click);
             // 
@@ -146,9 +147,14 @@
             // 
             this.mnuItemExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuItemExit.Name = "mnuItemExit";
-            this.mnuItemExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuItemExit.Size = new System.Drawing.Size(121, 22);
             this.mnuItemExit.Text = "終了(&X)";
             this.mnuItemExit.Click += new System.EventHandler(this.mnuItemExit_Click);
+            // 
+            // tmrUpdateDelay
+            // 
+            this.tmrUpdateDelay.Interval = 2000;
+            this.tmrUpdateDelay.Tick += new System.EventHandler(this.tmrUpdateDelay_Tick);
             // 
             // Form1
             // 
@@ -191,6 +197,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuItemSetup;
         private System.Windows.Forms.ToolStripMenuItem mnuItemExit;
+        private System.Windows.Forms.Timer tmrUpdateDelay;
     }
 }
 

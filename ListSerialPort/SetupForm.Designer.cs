@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,12 +38,14 @@
             this.txtArg = new System.Windows.Forms.TextBox();
             this.txtMenu = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.ctlerrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ctlerrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOk
             // 
             this.btnOk.Location = new System.Drawing.Point(368, 200);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(4);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(80, 40);
             this.btnOk.TabIndex = 0;
@@ -54,7 +57,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(456, 200);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 40);
             this.btnCancel.TabIndex = 1;
@@ -114,6 +117,7 @@
             this.txtMenu.Name = "txtMenu";
             this.txtMenu.Size = new System.Drawing.Size(160, 25);
             this.txtMenu.TabIndex = 8;
+            this.txtMenu.Validating += new System.ComponentModel.CancelEventHandler(this.txtMenu_Validating);
             // 
             // label3
             // 
@@ -125,12 +129,16 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "メニュー:";
             // 
+            // ctlerrorProvider
+            // 
+            this.ctlerrorProvider.ContainerControl = this;
+            // 
             // SetupForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(564, 249);
             this.Controls.Add(this.txtMenu);
@@ -144,13 +152,14 @@
             this.Controls.Add(this.btnOk);
             this.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SetupForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "設定";
+            ((System.ComponentModel.ISupportInitialize)(this.ctlerrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,5 +176,6 @@
         private System.Windows.Forms.TextBox txtArg;
         private System.Windows.Forms.TextBox txtMenu;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ErrorProvider ctlerrorProvider;
     }
 }
