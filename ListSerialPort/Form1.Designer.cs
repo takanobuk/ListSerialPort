@@ -78,7 +78,8 @@
             this.toolStripMenuItem1,
             this.mnuCopy});
             this.ctlMenu.Name = "ctlMenu";
-            this.ctlMenu.Size = new System.Drawing.Size(215, 54);
+            this.ctlMenu.Size = new System.Drawing.Size(215, 76);
+            this.ctlMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ctlMenu_Opening);
             // 
             // mnuStartApp
             // 

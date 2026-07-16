@@ -39,6 +39,7 @@
             this.txtMenu = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ctlerrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ctlerrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,6 +80,7 @@
             // 
             this.txtAppPath.Location = new System.Drawing.Point(24, 40);
             this.txtAppPath.Name = "txtAppPath";
+            this.txtAppPath.ReadOnly = true;
             this.txtAppPath.Size = new System.Drawing.Size(424, 25);
             this.txtAppPath.TabIndex = 3;
             this.txtAppPath.Validating += new System.ComponentModel.CancelEventHandler(this.txtAppPath_Validating);
@@ -133,6 +135,17 @@
             // 
             this.ctlerrorProvider.ContainerControl = this;
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(272, 200);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(80, 40);
+            this.btnClear.TabIndex = 9;
+            this.btnClear.Text = "クリア";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // SetupForm
             // 
             this.AcceptButton = this.btnOk;
@@ -140,7 +153,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(564, 249);
+            this.ClientSize = new System.Drawing.Size(561, 249);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.txtMenu);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtArg);
@@ -177,5 +191,6 @@
         private System.Windows.Forms.TextBox txtMenu;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ErrorProvider ctlerrorProvider;
+        private System.Windows.Forms.Button btnClear;
     }
 }

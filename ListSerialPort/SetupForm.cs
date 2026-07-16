@@ -43,11 +43,11 @@ namespace ListSerialPort
         {
             FileDialog fileDialog = new OpenFileDialog();
 
-            fileDialog.FileName = txtAppPath.Text;
+            fileDialog.FileName = System.IO.Path.GetFileName(txtAppPath.Text);
+            fileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(txtAppPath.Text);
 
             fileDialog.Filter = "実行ファイル (*.exe,*.com,*.cmd,*.bat)|*.exe;*.com;*.cmd;*.bat|すべてのファイル (*.*)|*.*";
             fileDialog.Title = "実行ファイルを選択してください";
-            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             fileDialog.RestoreDirectory = true;
             fileDialog.CheckFileExists = true;
             fileDialog.CheckPathExists = true;
@@ -102,6 +102,14 @@ namespace ListSerialPort
                 e.Cancel = false;
                 ctlerrorProvider.SetError(txtMenu, string.Empty);
             }
+        }
+
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtAppPath.Text = string.Empty;
+            txtArg.Text = string.Empty;
+            txtMenu.Text = "アプリ起動";
         }
     }
 }

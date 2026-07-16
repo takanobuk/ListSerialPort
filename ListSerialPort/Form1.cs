@@ -18,9 +18,9 @@ namespace ListSerialPort
         protected override void WndProc(ref Message m)
         {
             const int WM_DEVICECHANGE = 0x00000219;  //デバイス変化のWindowsイベントの値
-            
+
             base.WndProc(ref m);
-            
+
             switch (m.Msg)
             {
                 case WM_DEVICECHANGE:   //デバイス状況の変化イベント
@@ -257,5 +257,13 @@ namespace ListSerialPort
             }
         }
 
+
+        private void ctlMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Properties.Settings.Default.StartApplicationPath))
+                mnuStartApp.Enabled = false;
+            else
+                mnuStartApp.Enabled = true;
+        }
     }
 }
