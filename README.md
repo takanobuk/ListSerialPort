@@ -12,11 +12,15 @@ Windowsにおいて、シリアルポートを一覧表示する.NET Framework�
 ## Install
 
 ダウンロードしたzipファイルを解凍し、任意のフォルダーに配置し、ListSerialPort.exeを実行してください。
+ 
 必要に応じてデスクトップなどにショートカットを作成しすると便利です。
+ 
+動作には.NET Framework 4.7.2以上が必要です。Windows 10以降のOSでは標準でインストールされています。
 
 ## Build
 
 Visual Studioで開いてコンパイル。
+ 
 VS2022, VS2026で確認済み。
 
 ## Note
