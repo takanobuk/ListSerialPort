@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Management;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.IO;
 
 
 namespace ListSerialPort
@@ -12,7 +14,6 @@ namespace ListSerialPort
         {
             InitializeComponent();
         }
-
 
 
         protected override void WndProc(ref Message m)
@@ -52,11 +53,78 @@ namespace ListSerialPort
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //
-            mnuStartApp.Text = Properties.Settings.Default.StartApplicationMenu;
+            // メニューの構築
+            BuildMenu();
 
+        }
+
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
             // シリアルポートリストを更新
             UpdateSerialPortList();
+        }
+
+
+        private void BuildMenu()
+        {
+            try
+            {
+                // config.xml のパスを取得（実行ファイルと同じディレクトリ）
+                string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.xml");
+
+                if (!File.Exists(configPath))
+                {
+                    MessageBox.Show(this, "config.xml が見つかりません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // XML を読み込む
+                XDocument doc = XDocument.Load(configPath);
+                XElement root = doc.Root;
+
+                if (root == null || root.Name.LocalName != "MenuConfig")
+                {
+                    MessageBox.Show(this, "config.xml の形式が正しくありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 各 Menu 要素を処理
+                var menuElements = root.Elements("Menu");
+
+                foreach (var menuElement in menuElements)
+                {
+                    // 各メニューの Path, Arguments, MenuTitle を取得
+                    string path = menuElement.Element("Path")?.Value?.Trim();
+                    string arguments = menuElement.Element("Arguments")?.Value?.Trim();
+                    string menuTitle = menuElement.Element("MenuTitle")?.Value?.Trim();
+
+                    if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(menuTitle))
+                    {
+                        continue;
+                    }
+
+                    // MenuItemData オブジェクトを生成
+                    var menuItemData = new MenuItemData
+                    {
+                        Path = path,
+                        Arguments = arguments ?? string.Empty,
+                        MenuTitle = menuTitle
+                    };
+
+                    // メニュー項目を作成
+                    var toolStripMenuItem = new ToolStripMenuItem(menuItemData.MenuTitle);
+                    toolStripMenuItem.Tag = menuItemData;
+                    toolStripMenuItem.Click += mnuStartApp_Click;
+
+                    // ctlMenu.Items の末尾に追加
+                    ctlMenu.Items.Add(toolStripMenuItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"メニュー構築時にエラーが発生しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -111,6 +179,22 @@ namespace ListSerialPort
 
         private void mnuStartApp_Click(object sender, EventArgs e)
         {
+            // sender が ToolStripMenuItem かどうかを確認
+            var menuItem = sender as ToolStripMenuItem;
+            if (menuItem == null || menuItem.Tag == null)
+            {
+                MessageBox.Show(this, "メニュー項目が正しく設定されていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Tag から MenuItemData を取得
+            var menuItemData = menuItem.Tag as MenuItemData;
+            if (menuItemData == null)
+            {
+                MessageBox.Show(this, "メニュー項目のデータが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (ctlList.SelectedItem == null)
             {
                 MessageBox.Show(this, "項目が選択されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -135,10 +219,9 @@ namespace ListSerialPort
 
                 try
                 {
-                    // 外部アプリケーションを起動する
-                    // {0}=COMポート名, {1}=COM番号
-                    System.Diagnostics.Process.Start(Properties.Settings.Default.StartApplicationPath,
-                        string.Format(Properties.Settings.Default.StartApplicationArguments, comPort, comNumber));
+                    // MenuItemData の Path と Arguments を使用してアプリケーションを起動
+                    string arguments = string.Format(menuItemData.Arguments, comPort, comNumber);
+                    System.Diagnostics.Process.Start(menuItemData.Path, arguments);
                 }
                 catch (Exception ex)
                 {
@@ -214,29 +297,6 @@ namespace ListSerialPort
         }
 
 
-        private void mnuItemSetup_Click(object sender, EventArgs e)
-        {
-            //  設定画面を開く
-            SetupForm setupForm = new SetupForm();
-
-            setupForm.AppPath = Properties.Settings.Default.StartApplicationPath;
-            setupForm.AppArgument = Properties.Settings.Default.StartApplicationArguments;
-            setupForm.MenuTitle = Properties.Settings.Default.StartApplicationMenu;
-
-            if (setupForm.ShowDialog() == DialogResult.OK)
-            {
-                // 設定を保存
-                Properties.Settings.Default.StartApplicationPath = setupForm.AppPath;
-                Properties.Settings.Default.StartApplicationArguments = setupForm.AppArgument;
-                Properties.Settings.Default.StartApplicationMenu = setupForm.MenuTitle;
-                Properties.Settings.Default.Save();
-
-                // メニューのテキストを更新
-                mnuStartApp.Text = Properties.Settings.Default.StartApplicationMenu;
-            }
-        }
-
-
         private void ctlList_MouseDown(object sender, MouseEventArgs e)
         {
             // 右クリックされた場合、クリックした項目を選択してコンテキストメニューを表示
@@ -257,13 +317,5 @@ namespace ListSerialPort
             }
         }
 
-
-        private void ctlMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.StartApplicationPath))
-                mnuStartApp.Enabled = false;
-            else
-                mnuStartApp.Enabled = true;
-        }
     }
 }

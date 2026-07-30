@@ -32,13 +32,11 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.ctlList = new System.Windows.Forms.ListBox();
             this.ctlMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuStartApp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.btnClose = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrUpdateDelay = new System.Windows.Forms.Timer(this.components);
             this.ctlMenu.SuspendLayout();
@@ -74,20 +72,10 @@
             // ctlMenu
             // 
             this.ctlMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuStartApp,
-            this.toolStripMenuItem1,
-            this.mnuCopy});
+            this.mnuCopy,
+            this.toolStripMenuItem1});
             this.ctlMenu.Name = "ctlMenu";
-            this.ctlMenu.Size = new System.Drawing.Size(215, 76);
-            this.ctlMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ctlMenu_Opening);
-            // 
-            // mnuStartApp
-            // 
-            this.mnuStartApp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.mnuStartApp.Name = "mnuStartApp";
-            this.mnuStartApp.Size = new System.Drawing.Size(214, 22);
-            this.mnuStartApp.Text = "アプリ起動";
-            this.mnuStartApp.Click += new System.EventHandler(this.mnuStartApp_Click);
+            this.ctlMenu.Size = new System.Drawing.Size(215, 32);
             // 
             // toolStripMenuItem1
             // 
@@ -130,25 +118,16 @@
             // 
             this.mnuFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuItemSetup,
             this.mnuItemExit});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(67, 20);
             this.mnuFile.Text = "ファイル(&F)";
             // 
-            // mnuItemSetup
-            // 
-            this.mnuItemSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.mnuItemSetup.Name = "mnuItemSetup";
-            this.mnuItemSetup.Size = new System.Drawing.Size(121, 22);
-            this.mnuItemSetup.Text = "設定(&S)...";
-            this.mnuItemSetup.Click += new System.EventHandler(this.mnuItemSetup_Click);
-            // 
             // mnuItemExit
             // 
             this.mnuItemExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuItemExit.Name = "mnuItemExit";
-            this.mnuItemExit.Size = new System.Drawing.Size(121, 22);
+            this.mnuItemExit.Size = new System.Drawing.Size(113, 22);
             this.mnuItemExit.Text = "終了(&X)";
             this.mnuItemExit.Click += new System.EventHandler(this.mnuItemExit_Click);
             // 
@@ -176,6 +155,7 @@
             this.Name = "Form1";
             this.Text = "シリアルポート一覧";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ctlMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -190,13 +170,11 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.ListBox ctlList;
         private System.Windows.Forms.ContextMenuStrip ctlMenu;
-        private System.Windows.Forms.ToolStripMenuItem mnuStartApp;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mnuCopy;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
-        private System.Windows.Forms.ToolStripMenuItem mnuItemSetup;
         private System.Windows.Forms.ToolStripMenuItem mnuItemExit;
         private System.Windows.Forms.Timer tmrUpdateDelay;
     }

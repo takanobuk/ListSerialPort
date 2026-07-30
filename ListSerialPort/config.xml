@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<MenuConfig>
+	<Menu>
+		<Path>
+			C:\Program Files (x86)\teraterm\ttermpro.exe
+		</Path>
+		<Arguments>
+			/C={1} /SPEED=115200 /CDATABIT=8 /CPARITY=none /CSTOPBIT=1 /CFLOWCTRL=none
+		</Arguments>
+		<MenuTitle>
+			TeraTermを起動(115200bps)
+		</MenuTitle>
+	</Menu>
+
+	<Menu>
+		<Path>
+			C:\Program Files (x86)\teraterm\ttermpro.exe
+		</Path>
+		<Arguments>
+			/C={1} /SPEED=9600 /CDATABIT=8 /CPARITY=none /CSTOPBIT=1 /CFLOWCTRL=none
+		</Arguments>
+		<MenuTitle>
+			TeraTermを起動(9600bps)
+		</MenuTitle>
+	</Menu>
+</MenuConfig>
